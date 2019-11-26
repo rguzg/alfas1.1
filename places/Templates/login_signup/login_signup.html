@@ -1,0 +1,92 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/login_signup/login_signup.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/login_signup/login_signup.js' %}"></script>
+    
+    <title>Places</title>
+</head>
+<body>
+    <div class="signup" id="signup">
+        <div class="izquierdo">
+            <div class="background row justify-content-between">
+                <div class="col-12">
+                    <img src="{% static 'img/logo_white.png' %}" alt="" srcset="" class="logo">
+                    <h2 class="texto">Hola,</h2>
+                    <h5 class="texto">Ingresa tus datos para registrarte</h5>
+                </div>
+            </div>
+        </div>
+        <div class="derecho">
+            <div>
+                {%csrf_token%}
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" autocomplete="given-name">
+                <small class="form-text smallError invisible" id="errorNombre">Ingresa tu nombre</small>
+                
+                <label for="apellidos">Apellidos</label>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" autocomplete="family-name">
+                <small class="form-text smallError invisible" id="errorApellidos">Ingresa tus apellidos</small>
+                
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" name="usuario" id="usuario" autocomplete="off">
+                <small class="form-text smallError invisible" id="errorUsuario">Ingresa un nombre de usuario</small>
+                
+                <label for="correo">Correo</label>
+                <input type="email" class="form-control" name="correo" id="correo" autocomplete="email">
+                <small class="form-text smallError invisible" id="errorCorreo">Ingresa un correo valido</small>
+                
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" name="password" id="password" autocomplete="new-password">
+                <small class="form-text smallError invisible" id="errorPassword">Ingresa una contraseña</small>
+                
+                <label for="passwordVerify">Vuelve a escribir tu contraseña</label>
+                <input type="password" class="form-control input" name="passwordVerify" id="passwordVerify" autocomplete="new-password">
+                <small class="form-text smallError invisible" id="errorContraseñaIgual">Las contraseñas no son iguales</small>
+                <button class="btn" id="botonRegistro">Registrate</button> 
+                <br>
+                <p class="hipervinculo" id="botonIrLogin">¿Ya tienes una cuenta? Da click aquí para iniciar sesión</p>
+            </div>
+        </div>
+    </div>
+    <div class="login invisible" id="login">
+        <div class="izquierdo">
+            <div class="background row justify-content-between">
+                <div class="col-12">
+                    <img src="{% static 'img/logo_white.png' %}" alt="" srcset="" class="logo">
+                    <h2 class="texto">Hola,</h2>
+                    <h5 class="texto">Ingresa tus datos para iniciar sesión</h5>
+                </div>
+            </div>
+        </div>
+        <div class="derecho">
+            <div>
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" name="usuario" id="usuarioLogin" autocomplete="username">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" name="password" id="passwordLogin" autocomplete="password">
+                <button class="btn" id="botonLogin">Iniciar Sesión</button> 
+                <br>
+                <p class="hipervinculo" id="botonIrSignup">¿No tienes una cuenta? Da click aquí para registrarte</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

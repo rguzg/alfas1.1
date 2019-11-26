@@ -54,7 +54,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'places.urls'
 
 # Login URL para el decorador @login_required:
-LOGIN_URL = '*'
+# LOGIN_URL = '*'
 
 TEMPLATES = [
     {
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC-6'
+TIME_ZONE = 'America/Belize'
 
 USE_I18N = True
 
@@ -123,7 +123,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Ubicación del modelo de usuarios del proyecto
-# AUTH_USER_MODEL = '*'
+AUTH_USER_MODEL = 'usuario.usuarios'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

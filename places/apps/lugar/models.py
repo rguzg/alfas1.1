@@ -12,8 +12,8 @@ class lugar(models.Model):
     descripcion = models.CharField(max_length=300)
     direccion = models.CharField(max_length=300)
     placeid = models.CharField(max_length=100)
-    # horarioAbrir = models.TimeField(default='08:00')
-    # horarioCerrar = models.TimeField(default='08:00')
+    horarioAbrir = models.TimeField(default='08:00:00')
+    horarioCerrar = models.TimeField(default='08:00:00')
     abiertoLunes = models.BooleanField(null=True)
     abiertoMartes = models.BooleanField(null=True)
     abiertoMiercoles = models.BooleanField(null=True)
@@ -27,16 +27,16 @@ class lugar(models.Model):
     contadorFotos = models.IntegerField()
     urlMenu = models.URLField(max_length=100)
     eliminado = models.BooleanField(default=False)
-    status = models.ForeignKey(models_usuario.status,on_delete=models.CASCADE)
-    propietario = models.ForeignKey(models_usuario.usuarios,on_delete=models.CASCADE)
+    status = models.ForeignKey('usuario.status',on_delete=models.CASCADE)
+    propietario = models.ForeignKey('usuario.usuarios',on_delete=models.CASCADE)
     categoria = models.ForeignKey(categoria,on_delete=models.CASCADE)
 
 class reporte(models.Model):
     titulo = models.CharField(max_length=50)
-    descripcion = models.charfield(max_length=300)
+    descripcion = models.CharField(max_length=300)
     lugar = models.ForeignKey(lugar, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(models_usuario.usuarios, on_delete=models.CASCADE)
-    status = models.ForeignKey(models_usuario.status,on_delete=models.CASCADE)
+    usuario = models.ForeignKey('usuario.usuarios', on_delete=models.CASCADE)
+    status = models.ForeignKey('usuario.status',on_delete=models.CASCADE)
     eliminado = models.BooleanField(default=False)
 
 class reporte_lugar(models.Model):

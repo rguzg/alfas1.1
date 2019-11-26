@@ -1,0 +1,121 @@
+*{
+    
+    padding: 0px;
+    margin: 0px;
+    font-family: 'SFProDisplay-Regular';
+
+}
+
+html, body, .signup, .login
+{
+    
+    width: 100%;
+    height: 100%;
+    
+}
+
+.izquierdo{
+
+    height: 100%;
+    width: 40%;
+    float: left;
+    position: relative;
+    background-image: url(../../img/black-and-white-black-background-dark-design-808822.jpg);
+    background-size: cover;
+    color: #ffffff;
+    box-shadow: -1px 0px 8px 1px rgba(0,0,0,0.75);
+    z-index: 3;
+    
+
+}
+
+.derecho{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60%;
+    z-index: 2;
+    background-color: white;
+    position: relative;
+
+}
+
+.input{
+    
+    margin-bottom: 8px !important;
+
+}
+
+.btn{
+
+    background-color: #000000 !important;
+    color: #ffffff;
+    outline: none !important;
+
+}
+
+
+.background{
+
+    background-color: rgba(0, 0, 0, 0.76);
+    height: 100%;
+    width: 103%;
+
+}
+
+.logo{
+
+    height: 200px;
+    width: 200px;
+
+}
+
+.texto{
+
+    padding-left: 40px;
+    font-size: 50px;
+    
+}
+
+.textoPequeño{
+
+    padding-left: 40px;
+    font-size: 30px;
+
+}
+
+.form{
+
+    width: 50%;
+    height: 50%;
+
+}
+
+.hipervinculo{
+
+    font-size: 15px !important;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+.error{
+
+    border: 1px solid #8b0000;
+
+}
+
+.smallError{
+
+    color: #8b0000 !important;
+    display: block;
+
+}
+
+.invisible{
+
+    display: none !important;
+
+}
