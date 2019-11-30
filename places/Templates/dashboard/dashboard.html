@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Fontawesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/header/header.js' %}"></script>
+    
+    <title>Dashboard - Places</title>
+</head>
+<body>
+    {%csrf_token%}
+    <header>
+        <div class="mainHeader">
+            <img class="iconHeader" id="places" src="{% static 'img/favicon.png' %}">
+            <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
+            <div class="botonesUsuario">
+                <div id="profilePicture" style="background-image: url({{request.session.profilepicture}});"></div>
+                <div id="logout" style="display: flex; align-items: center;">
+                    <i class="fas fa-door-open"></i>
+                </div>
+            </div>
+        </div>
+        <div class="background" >
+            <img src="{% static '../static/img/dashboard_white_smaller.png'%}" id="logoDashboard">
+        </div>
+    </header>
+    <div class="main">
+        <div class="contenido container">
+            <div class="card" style="width: 18rem;">
+                <img src="../static/img/Header.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">No tienes ninguna invitación en este momento</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="../static/img/Header.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">No tienes ninguna invitación en este momento</p>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="../static/img/Header.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">No tienes ninguna invitación en este momento</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>

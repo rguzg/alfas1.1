@@ -1,0 +1,116 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Fontawesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/miPerfil/miPerfil.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/header/header.js' %}"></script>
+    <script defer src="{% static 'js/miperfil/miperfil.js' %}"></script>
+    
+    <title>Mi Perfil - Places</title>
+</head>
+<body>
+    {%csrf_token%}
+    <header>
+        <div class="mainHeader">
+            <img class="iconHeader" id="places" src="{% static 'img/favicon.png' %}">
+            <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
+            <div class="botonesUsuario">
+                <div id="profilePicture" style="background-image: url({{request.session.profilepicture}});">
+                </div>
+                <div id="logout" style="display: flex; align-items: center;">
+                    <i class="fas fa-door-open"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div class="container">
+            <h1 id="titulo" >Tu Perfil</h1>
+            <div class="cajas">
+                <div class="contenedor">
+                    <div class="usuarioNormal">
+                        <div id="datosPicture" style="background-image: url({{request.session.profilepicture}});">
+                            <button class="btn btn-success invisible" type="button" id="fotoPerfilBoton"><i class="fas fa-check"></i></button>
+                            <button class="btn btn-danger invisible" type="button" id="fotoPerfilCancelar"><i class="fas fa-times"></i></button>
+                            <input type="file" class="custom-file-input" id="fotoPerfil" accept="image/png, image/jpeg" style="height: 100%; width: 100%;">
+                            <div style="background-color: rgba(0, 0, 0, 0.75); width: 100%; height: 100%; position: relative; margin-top: -100px; border-radius: 50px; display:flex; align-items: center; justify-content: center; display: none," id="cambiarFoto" class="invisible"><i class="fas fa-camera"></i></i></div>
+                        </div>
+                    </div>
+                    <div class="datos">
+                        <div>
+                            <h5>Usuario</h5>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="usuario" placeholder="{{request.session.usuario}}" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-normal" type="button" id="usuarioBoton"><i class="fas fa-pencil-alt"></i></button>
+                                    <button class="btn btn-success invisible" type="button" id="usuarioBotonChange"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Nombre</h5>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="nombre" placeholder="{{request.session.nombreUsuario}}" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-normal" type="button" id="nombreBoton"><i class="fas fa-pencil-alt"></i></button>
+                                    <button class="btn btn-success invisible" type="button" id="nombreBotonChange"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Apellidos</h5>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="apellidos" placeholder="{{request.session.apellidosUsuario}}" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-normal" type="button" id="apellidosBoton"><i class="fas fa-pencil-alt"></i></button>
+                                    <button class="btn btn-success invisible" type="button" id="apellidosBotonChange"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Correo</h5>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="correo" placeholder="{{request.session.email}}" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-normal" type="button" id="correoBoton"><i class="fas fa-pencil-alt"></i></button>
+                                    <button class="btn btn-success invisible" type="button" id="correoBotonChange"><i class="fas fa-check"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contenedor">
+                    <div style="padding-top: 10px; display: flex; flex-direction: column;">
+                        <h5>Descripción</h5>
+                        <textarea class="form-control" id="descripcion" cols="30" rows="10" disabled placeholder="{{request.session.descripcion}}"></textarea>
+                        <br>
+                        <button class="btn btn-normal" type="button" style="align-self: flex-end;" id="descripcionBoton"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="btn btn-success invisible" type="button" id="descripcionBotonChange" style="align-self: flex-end;"><i class="fas fa-check"></i></button>
+                    </div>
+                    <br>
+                    <button class="btn btn-normal" type="button" style="width: auto;" id="passwordBoton">Cambiar tu contraseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

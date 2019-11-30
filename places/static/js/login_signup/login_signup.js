@@ -372,10 +372,9 @@ $("#botonLogin").on("click", function () {
 
                 if(response.status == 200){
 
-                    ToastLogin.fire({
-                        icon: 'success',
-                        title: 'Holi Crayoli Iniciaste Seionoli. Esto no lo deberia de ver nadieoli'
-                    });
+                    console.log(response);
+                    sessionStorage.setItem('usuario', response.usuario);
+                    window.location.href = '/dashboard';    
 
                 }
             }

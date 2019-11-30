@@ -1,0 +1,108 @@
+*{
+    
+    padding: 0px;
+    margin: 0px;
+    font-family: 'SFProDisplay-Regular';
+
+}
+
+html, body
+{
+    
+    width: 100%;
+    height: 100%;
+    
+}
+
+header{
+
+    height: 55px;
+    width: 100%;
+    position: fixed;
+    background-image: url('../../img/Header.png');
+    background-size: cover;
+
+}
+
+.mainHeader{
+
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.iconHeader{
+
+    height: 30px;
+    width: 30px;
+
+}
+
+#busqueda{
+
+    height: 30px;
+    width: 300px;
+    border: none;
+    border-radius: 30px;
+    outline-color: #000000 !important;
+
+}
+
+#places{
+
+    cursor: pointer;
+
+}
+
+#profilePicture{
+
+    height: 30px;
+    width: 30px;
+    border-radius: 25px;
+    background-size: cover;
+    margin-right: 20px;
+    cursor: pointer;
+
+}
+
+.botonesUsuario{
+
+    display: flex;
+    align-items: center;
+    width: auto;
+
+}
+
+.fa-door-open{
+
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+
+}
+
+.background{
+
+    background-image: url(../../img/Header.png); 
+    background-size: cover; 
+    height: 100px; 
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#logoDashboard{
+
+    padding-left: 155px !important;
+
+}
+
+.testyot{
+
+    background-color: red;
+
+}

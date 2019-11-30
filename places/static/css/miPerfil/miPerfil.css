@@ -1,0 +1,160 @@
+*{
+    
+    padding: 0px;
+    margin: 0px;
+    font-family: 'SFProDisplay-Regular';
+
+}
+
+html, body
+{
+    
+    width: 100%;
+    height: 100%;
+    
+}
+
+.main{
+
+    padding-top: 55px;
+    height: 100%;
+    width: 100%;
+
+}
+
+.container{
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+
+}
+
+.cajas{
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 58px !important;
+    padding-right: 58px !important;
+    position: relative;
+
+}
+
+.contenedor{
+
+    height: 500px;
+    width: 333px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cccccc;
+    border-radius: 1rem;
+    color: #000000;
+    z-index: 2;
+    margin-right: 15px;
+    
+
+}
+
+.usuarioNormal{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 200px;
+    width: 100%;
+    background-color: #1A2345;
+    border: none;
+    color: #ffffff;
+    border-radius: 0.8rem;
+    z-index: 3;
+    box-shadow: 0px 15px 10px -15px #111;
+
+}
+
+.datos{
+
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.form-control:disabled{
+    
+    color: #000000 !important;
+    background-color: #ffffff;
+
+}
+
+.btn-normal{
+
+    background-color: #1A2345 !important;
+    color: #ffffff !important;
+    width: 40px;
+
+}
+
+.invisible{
+
+    display: none !important;
+
+}
+
+.fa-camera{
+
+    font-size: 50px;
+    position: relative;
+
+}
+
+#datosPicture{
+
+    height: 100px;
+    width: 100px;
+    border-radius: 95px;
+    background-size: cover;
+    float: left;
+    z-index: 2;
+
+}
+
+#titulo{
+
+    font-size: 2rem;
+    padding-top: 15px;
+    padding-left: 55px;
+
+}
+
+#fotoPerfilBoton{
+
+    z-index: 3;
+    margin-top: 70px;
+    margin-left: 70px;
+
+}
+
+#fotoPerfilCancelar{
+
+    z-index: 3;
+    margin-top: -60px;
+    margin-left: -10px;
+
+}
+
+textarea{
+
+    resize: none;
+
+}
