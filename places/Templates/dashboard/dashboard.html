@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
     
     <script defer src="{% static 'js/header/header.js' %}"></script>
+    <script defer src="{% static 'js/dashboard/dashboard.js' %}"></script>
     
     <title>Dashboard - Places</title>
 </head>
@@ -58,13 +59,15 @@
                     <p class="card-text">No tienes ninguna invitación en este momento</p>
                 </div>
             </div>
-            <div class="card" style="width: 18rem;">
-                <img src="../static/img/Header.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">No tienes ninguna invitación en este momento</p>
+            {% if tipoUsuario == 'administrador' %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Solicitudes de Propietario</h4>
+                    </div>
+                    <div class="card-body" id="solicitudPropietario">
+                    </div>
                 </div>
-            </div>
-            
+            {% endif %}
         </div>
     </div>
 </body>

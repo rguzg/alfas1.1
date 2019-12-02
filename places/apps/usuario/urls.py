@@ -13,5 +13,9 @@ urlpatterns = [
     path('anadirAmigo', views.anadirAmigo, name="anadirAmigo"),
     path('eliminarAmigo', views.eliminarAmigo, name="eliminarAmigo"),
     path('confirmarAmigo', views.confirmarAmigo, name="confirmarAmigo"),
+    path('solicitarPropietario', views.solicitarPropietario, name="solicitarPropietario"),
+    path('cancelarPropietario', views.cancelarPropietario, name="cancelarPropietario"),
+    path('aceptarPropietario', views.aceptarPropietario, name="aceptarPropietario"),
+    path('solicitudes', views.solicitudes, name="solicitudes"),
 
 ]

@@ -374,6 +374,7 @@ $("#botonLogin").on("click", function () {
 
                     console.log(response);
                     sessionStorage.setItem('usuario', response.usuario);
+                    sessionStorage.setItem('tipoUsuario', response.tipoUsuario);
                     window.location.href = '/dashboard';    
 
                 }

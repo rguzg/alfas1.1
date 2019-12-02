@@ -68,11 +68,13 @@ def inicioSesion(request):
             request.session['nombreUsuario'] = usuario.first_name
             request.session['apellidosUsuario'] = usuario.last_name
             request.session['email'] = usuario.email
+            request.session['tipo'] = usuario.tipoUsuario.nombre
+            request.session['status'] = usuario.status.nombre
             request.session['descripcion'] = usuario.descripcion
             request.session['profilepicture'] = usuario.urlFotoPerfil
             login(request, usuario)
 
-            return JsonResponse({'status': 200, 'usuario': usuario.username})
+            return JsonResponse({'status': 200, 'usuario': usuario.username, 'tipoUsuario': usuario.tipoUsuario.nombre})
         else:
 
             return JsonResponse({'status': 500})
@@ -81,7 +83,7 @@ def inicioSesion(request):
 
 @login_required(login_url='/')
 def dashboard(request):
-    return render(request, "dashboard/dashboard.html",)
+    return render(request, "dashboard/dashboard.html",{'tipoUsuario': request.session['tipo'], 'status': request.session['status'],})
 
 def cerrarSesion(request):
     if request.method == 'POST':
@@ -93,7 +95,7 @@ def cerrarSesion(request):
 @login_required(login_url='/')
 def perfil(request):
     if request.GET['usuario'] ==  request.session['usuario']:
-        return render(request, "miPerfil/miPerfil.html")
+        return render(request, "miPerfil/miPerfil.html",{'tipoUsuario': request.session['tipo'], 'status': request.session['status'],})
     else:
         usuario = model_usuario.objects.get(username=request.GET['usuario'])
         amistad = model_listaAmigos.objects.filter(usuario=request.session['pk']).filter(amigo=usuario).first()
@@ -235,7 +237,67 @@ def confirmarAmigo(request):
     else:
         return JsonResponse({'status': 500})
 
+@login_required(login_url='/')
+def solicitarPropietario(request):
+    usuario = model_usuario.objects.get(pk=request.session['pk'])
+    status = model_status.objects.get(nombre='propietarioSolicitado')
 
+    if usuario.tipoUsuario.nombre == 'normal':
+        usuario.status = status
+        usuario.save()
+
+        return JsonResponse({'status': 200})
+    else:
+        return JsonResponse({'status': 500})
+
+@login_required(login_url='/')
+def cancelarPropietario(request):
+    if request.GET['metodo'] == 'administrador':
+        usuario = model_usuario.objects.get(username=request.POST['usuario'])
+    if request.GET['metodo'] == 'usuario':
+        usuario = model_usuario.objects.get(pk=request.session['pk'])
+        
+    status = model_status.objects.get(nombre='ninguno')
+
+    if usuario.tipoUsuario.nombre == 'normal':
+        usuario.status = status
+        usuario.save()
+
+        return JsonResponse({'status': 200})
+    else:
+        return JsonResponse({'status': 500})
+
+@login_required(login_url='/')
+def aceptarPropietario(request):
+    usuario = model_usuario.objects.get(username=request.POST['usuario'])
+    status = model_status.objects.get(nombre='propietarioGarantizado')
+    tipo = model_tipoUsuario.objects.get(nombre='propietario')
+
+    if usuario.tipoUsuario.nombre == 'normal':
+        usuario.status = status
+        usuario.tipoUsuario = tipo
+        usuario.save()
+
+        return JsonResponse({'status': 200})
+    else:
+        return JsonResponse({'status': 500})
+
+
+@login_required(login_url='/')
+def solicitudes(request):
+    if request.GET['tipo'] == 'propietario':
+        if request.session['tipo'] == 'administrador':
+            status = model_status.objects.get(nombre='propietarioSolicitado')
+
+            usuariosConSolicitud = model_usuario.objects.filter(status=status).all()
+            arregloSolicitudes = []
+
+            for solicitud in usuariosConSolicitud:
+                arregloSolicitudes.append(solicitud.username)
+            
+            return JsonResponse({'status': 200, 'solicitudes': arregloSolicitudes})
+        else:
+            return JsonResponse({'status': 403})
 
 
     

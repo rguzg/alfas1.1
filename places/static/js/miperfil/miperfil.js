@@ -219,6 +219,95 @@ $("#fotoPerfil").hover(function () {
 }
 );
 
+function solicitarPropietario(){
+
+    $("#propietarioBoton").click(function (e) { 
+        
+        $.ajax({
+            type: "POST",
+            url: "/solicitarPropietario",
+            data: {
+                
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+    
+            },
+            success: function (response) {
+             
+                if(response.status == 200){
+    
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Tu solicitud se envió correctamente y está en espera a que la acepte un administrador'
+                    });
+
+                    let botonCancelar = '<button class="btn btn-danger" type="button" style="width: auto;" id="propietarioCancelarBoton">Cancelar solicitud</button>';
+
+                    $("#propietarioBoton").addClass("invisible");
+
+                    $(botonCancelar).prependTo("#botonesExtra");
+                    cancelarPropietario();
+
+                } else {
+    
+                    Toast.fire({
+                        icon: 'info',
+                        title: 'Algo salió mal. No deberías de haber podido hacer eso 🤔'
+                    });
+    
+                }
+    
+            }
+        });
+        
+    });
+
+}
+
+function cancelarPropietario(){
+
+    $("#propietarioCancelarBoton").click(function (e) { 
+        
+        $.ajax({
+            type: "POST",
+            url: "/cancelarPropietario?metodo=usuario",
+            data: {
+                
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+    
+            },
+            success: function (response) {
+             
+                if(response.status == 200){
+    
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Tu solicitud se canceló correctamente'
+                    });
+
+                    let botonSolicitar = '<button class="btn btn-normal" type="button" style="width: auto;" id="propietarioBoton">Solicitar ser propietario</button>';
+
+                    $("#propietarioCancelarBoton").addClass("invisible");
+
+
+                    $(botonSolicitar).prependTo("#botonesExtra");
+                    solicitarPropietario();
+                    
+                } else {
+    
+                    Toast.fire({
+                        icon: 'info',
+                        title: 'Algo salió mal. No deberías de haber podido hacer eso 🤔'
+                    });
+    
+                }
+    
+            }
+        });
+        
+    });
+
+}
+
 //Verificación de que el dato sea correcto
 function verificarDato(contenido, atributo){
     
@@ -444,3 +533,6 @@ function validateEspacios(input){
     return re.test(input);
     
 }
+
+solicitarPropietario();
+cancelarPropietario();

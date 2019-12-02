@@ -48,7 +48,7 @@
             <h1 id="titulo" >Tu Perfil</h1>
             <div class="cajas">
                 <div class="contenedor">
-                    <div class="usuarioNormal">
+                    <div class="usuario {% if tipoUsuario == 'normal' %}usuarioNormal{% endif %} {% if tipoUsuario == 'propietario' %}propietario{% endif %} {% if tipoUsuario == 'administrador' %}administrador{% endif %}">
                         <div id="datosPicture" style="background-image: url({{request.session.profilepicture}});">
                             <button class="btn btn-success invisible" type="button" id="fotoPerfilBoton"><i class="fas fa-check"></i></button>
                             <button class="btn btn-danger invisible" type="button" id="fotoPerfilCancelar"><i class="fas fa-times"></i></button>
@@ -125,6 +125,14 @@
                         <button class="btn btn-success invisible" type="button" id="passwordBotonChange"><i class="fas fa-check"></i></button>
                         <button class="btn btn-danger invisible" type="button" id="passwordBotonCancelar"><i class="fas fa-times"></i></button>
                     </div>
+                </div>
+                <div class="contenedor" id="botonesExtra">
+                {% if  tipoUsuario == 'normal'%}
+                    <button class="btn btn-normal" type="button" style="width: auto;" id="propietarioBoton">Solicitar ser propietario</button>
+                {% endif %}
+                {% if status == 'propietarioSolicitado' %}
+                    <button class="btn btn-danger" type="button" style="width: auto;" id="propietarioCancelarBoton">Cancelar solicitud</button>
+                {% endif %}
                 </div>
             </div>
         </div>
