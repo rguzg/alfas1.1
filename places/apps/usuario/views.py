@@ -11,6 +11,7 @@ import random
 from apps.usuario.models import usuarios as model_usuario
 from apps.usuario.models import tipoUsuario as model_tipoUsuario
 from apps.usuario.models import status as model_status
+from apps.usuario.models import listaAmigos as model_listaAmigos
 
 # Create your views here.
 def placeholderProfilePicture(filename):
@@ -78,7 +79,7 @@ def inicioSesion(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
 
-@login_required(login_url='')
+@login_required(login_url='/')
 def dashboard(request):
     return render(request, "dashboard/dashboard.html",)
 
@@ -89,13 +90,31 @@ def cerrarSesion(request):
         return HttpResponseRedirect('/')
     return JsonResponse({'status': 200})
 
-@login_required(login_url='')
+@login_required(login_url='/')
 def perfil(request):
     if request.GET['usuario'] ==  request.session['usuario']:
-        print(request.session['profilepicture'])
         return render(request, "miPerfil/miPerfil.html")
+    else:
+        usuario = model_usuario.objects.get(username=request.GET['usuario'])
+        amistad = model_listaAmigos.objects.filter(usuario=request.session['pk']).filter(amigo=usuario).first()
 
-@login_required(login_url='')
+        if amistad is None:
+            estadoAmistad = 'ninguno'
+        else:
+            estadoAmistad = amistad.status.nombre
+
+        datosUsuario =  {
+            'usuario': usuario.username,
+            'nombre': usuario.first_name,
+            'apellidos': usuario.last_name,
+            'tipo': usuario.tipoUsuario.nombre,
+            'descripcion': usuario.descripcion,
+            'fotoPerfil': usuario.urlFotoPerfil,
+            'estadoAmistad': estadoAmistad
+        }
+        return render(request, "perfil/perfil.html", datosUsuario)
+
+@login_required(login_url='/')
 def modificarPerfil(request):
     #Usuario a modificar:
     usuarioModificar = model_usuario.objects.get(pk=request.session['pk'])
@@ -145,8 +164,78 @@ def modificarPerfil(request):
         request.session['profilepicture'] = usuarioModificar.urlFotoPerfil
         return  JsonResponse({'status': 200, 'atributo':  request.POST['atributo'], 'nombreArchivo': nombreArchivo})
 
+    if request.POST['atributo'] == 'password':
+        usuarioModificar.set_password(request.POST['contenido'])
+        update_session_auth_hash(request, usuarioModificar)
+        usuarioModificar.save()
+
+
     return  JsonResponse({'status': 200, 'atributo':  request.POST['atributo'], 'contenido': request.POST['contenido']})
 
-            
+@login_required(login_url='/')
+def anadirAmigo(request):
+    usuario = model_usuario.objects.get(pk=request.session['pk'])
+    nuevoAmigo = model_usuario.objects.get(username=request.POST['amigo'])
+    amistadSolicitada = model_status.objects.get(nombre='amistadSolicitada')
+    amistadPendiente = model_status.objects.get(nombre='amistadPendiente')
+
+    if nuevoAmigo is None:
+        return JsonResponse({"status": 500})
+    else:
+        #Entrada en la lista de amigos de quien envió la solicitud
+        nuevoListaAmigosEnvia = model_listaAmigos(usuario=usuario, amigo=nuevoAmigo, status=amistadSolicitada)
+        nuevoListaAmigosEnvia.save()
+
+        #Entrada en la lista de amigos de quien recibe la solicitud
+        nuevoListaAmigosRecibe = model_listaAmigos(usuario=nuevoAmigo, amigo=usuario, status=amistadPendiente)
+        nuevoListaAmigosRecibe.save()
+        return  JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def eliminarAmigo(request):
+    amigoEliminar = model_usuario.objects.get(username=request.POST['amigo'])
+    usuario = model_usuario.objects.get(pk=request.session['pk'])
+
+    #Entrada en la lista de amigos de quien envió la solicitud
+    amistadEnvia = model_listaAmigos.objects.filter(usuario=usuario).filter(amigo=amigoEliminar).first()
+    
+    #Entrada en la lista de amigos de quien recibe la solicitud
+    amistadRecibe = model_listaAmigos.objects.filter(usuario=amigoEliminar).filter(amigo=usuario).first()
+    
+    if (amistadEnvia is None):
+        return JsonResponse({'status': 500})
+    if ((amistadEnvia.status.nombre == 'amistadSolicitada') or (amistadEnvia.status.nombre == 'amistadPendiente') or (amistadEnvia.status.nombre == 'amistadActiva')):
+        amistadEnvia.delete()
+        amistadRecibe.delete()
+        return JsonResponse({'status': 200})
+    else:
+        return JsonResponse({'status': 500})
+
+@login_required(login_url='/')
+def confirmarAmigo(request):
+    amigoAñadir = model_usuario.objects.get(username=request.POST['amigo'])
+    usuario = model_usuario.objects.get(pk=request.session['pk'])
+    amistadActiva = model_status.objects.get(nombre='amistadActiva')
+
+    #Entrada en la lista de amigos de quien envió la solicitud
+    amistadEnvia = model_listaAmigos.objects.filter(usuario=usuario).filter(amigo=amigoAñadir).first()
+    
+    #Entrada en la lista de amigos de quien recibe la solicitud
+    amistadRecibe = model_listaAmigos.objects.filter(usuario=amigoAñadir).filter(amigo=usuario).first()
+
+    if (amistadEnvia is None):
+        return JsonResponse({'status': 500})
+    if (amistadEnvia.status.nombre == 'amistadPendiente'):
+        amistadEnvia.status = amistadActiva
+        amistadEnvia.save()
+
+        amistadRecibe.status = amistadActiva
+        amistadRecibe.save()
+        return JsonResponse({'status': 200})
+    else:
+        return JsonResponse({'status': 500})
+
+
+
 
     

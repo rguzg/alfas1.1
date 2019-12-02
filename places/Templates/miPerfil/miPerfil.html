@@ -102,13 +102,29 @@
                 <div class="contenedor">
                     <div style="padding-top: 10px; display: flex; flex-direction: column;">
                         <h5>Descripción</h5>
-                        <textarea class="form-control" id="descripcion" cols="30" rows="10" disabled placeholder="{{request.session.descripcion}}"></textarea>
+                        <textarea class="form-control" id="descripcion" cols="30" rows="8" disabled placeholder="{{request.session.descripcion}}"></textarea>
                         <br>
                         <button class="btn btn-normal" type="button" style="align-self: flex-end;" id="descripcionBoton"><i class="fas fa-pencil-alt"></i></button>
                         <button class="btn btn-success invisible" type="button" id="descripcionBotonChange" style="align-self: flex-end;"><i class="fas fa-check"></i></button>
                     </div>
                     <br>
+                    <div id="contenedorContraseña"  class="invisible" style="display: flex; flex-direction: column; align-items: center;">
+                        <h6>Ingresa tu nueva contraseña</h6>
+                        <div class="input-group mb-3">
+                            <input type="password" autocomplete="new-password" class="form-control" id="password">
+                        </div>
+                    </div>
+                    <div id="contenedorContraseñaVerify" class="invisible" style="display: flex; flex-direction: column; align-items: center;">
+                        <h6>Repite tu nueva contraseña</h6>
+                        <div class="input-group mb-3">
+                            <input type="password" autocomplete="new-password" class="form-control" id="passwordVerify">
+                        </div>
+                    </div>
                     <button class="btn btn-normal" type="button" style="width: auto;" id="passwordBoton">Cambiar tu contraseña</button>
+                    <div style="display: flex; flex-direction: row;">
+                        <button class="btn btn-success invisible" type="button" id="passwordBotonChange"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-danger invisible" type="button" id="passwordBotonCancelar"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,5 +10,8 @@ urlpatterns = [
     path('dashboard', views.dashboard, name="dashboard"),
     path('perfil', views.perfil, name="perfil"),
     path('modificarPerfil', views.modificarPerfil, name="modificarPerfil"),
+    path('anadirAmigo', views.anadirAmigo, name="anadirAmigo"),
+    path('eliminarAmigo', views.eliminarAmigo, name="eliminarAmigo"),
+    path('confirmarAmigo', views.confirmarAmigo, name="confirmarAmigo"),
 
 ]

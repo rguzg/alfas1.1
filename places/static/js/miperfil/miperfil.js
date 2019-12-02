@@ -56,6 +56,18 @@ $("#descripcionBoton").click(function (e) {
     
 });
 
+$("#passwordBoton").click(function (e) { 
+    
+    $("#descripcionBoton").addClass("invisible");
+    $("#passwordBoton").addClass("invisible");
+    
+    $("#contenedorContraseña").removeClass("invisible");
+    $("#contenedorContraseñaVerify").removeClass("invisible");
+    $("#passwordBotonChange").removeClass("invisible");
+    $("#passwordBotonCancelar").removeClass("invisible");
+    
+});
+
 //Confirmar cambio
 $("#usuarioBotonChange").click(function (e) { 
     
@@ -87,6 +99,67 @@ $("#descripcionBotonChange").click(function (e) {
     
 });
 
+$("#passwordBotonChange").click(function (e) { 
+    
+    nuevaContraseña = $("#password").val();
+    nuevaContraseñaVerify = $("#passwordVerify").val();
+    
+    if((nuevaContraseña == nuevaContraseñaVerify) && (nuevaContraseña != "") && !(validateEspacios(nuevaContraseña))) {
+        
+        $.ajax({
+            type: "POST",
+            url: "/modificarPerfil",
+            data: {
+                
+                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                atributo: 'password',
+                contenido: nuevaContraseña,
+                
+            },
+            success: function (response) {
+                
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Tu ' +response.atributo+ ' se modificó correctamente'
+                });
+                
+                $("#contenedorContraseña").addClass("invisible");
+                $("#contenedorContraseñaVerify").addClass("invisible");
+                $("#passwordBotonChange").addClass("invisible");
+                $("#passwordBotonCancelar").addClass("invisible");
+                
+                $("#descripcionBoton").removeClass("invisible");
+                $("#passwordBoton").removeClass("invisible");
+                
+            }
+        });
+        
+    } else {
+        
+        Toast.fire({
+            icon: 'error',
+            title: 'Las contraseñas no coinciden, intentalo de nuevo'
+        });
+        
+    }
+    
+});
+
+$("#passwordBotonCancelar").click(function (e) { 
+    
+    nuevaContraseña = $("#password").val("");
+    nuevaContraseñaVerify = $("#passwordVerify").val("");
+
+    $("#contenedorContraseña").addClass("invisible");
+    $("#contenedorContraseñaVerify").addClass("invisible");
+    $("#passwordBotonChange").addClass("invisible");
+    $("#passwordBotonCancelar").addClass("invisible");
+    
+    $("#descripcionBoton").removeClass("invisible");
+    $("#passwordBoton").removeClass("invisible");
+    
+});
+
 //Actualizar foto de perfil
 $("#fotoPerfil").on("input" ,function (e) {
     
@@ -115,12 +188,12 @@ $("#fotoPerfilBoton").click(function (e) {
                 icon: 'success',
                 title: 'Tu foto de perfil se cambió correctamente'
             });
-
+            
             $("#profilePicture").css("background-image", 'url(static/img/profilepictures/'+response.nombreArchivo+'.png)');
             $("#datosPicture").css("background-image", 'url(static/img/profilepictures/'+response.nombreArchivo+'.png)');
             $("#fotoPerfilBoton").addClass("invisible"); 
             $("#fotoPerfilCancelar").addClass("invisible"); 
-
+            
         }
     });
     
@@ -132,18 +205,18 @@ $("#fotoPerfilCancelar").click(function (e) {
     $("#fotoPerfilBoton").addClass("invisible"); 
     $("#fotoPerfilCancelar").addClass("invisible"); 
     $("#fotoPerfil").removeClass("invisible"); 
-
+    
     
 });
 
 $("#fotoPerfil").hover(function () {
-        
-        $("#cambiarFoto").removeClass("invisible");
-        
-    }, function () {
-
-        $("#cambiarFoto").addClass("invisible");
-    }
+    
+    $("#cambiarFoto").removeClass("invisible");
+    
+}, function () {
+    
+    $("#cambiarFoto").addClass("invisible");
+}
 );
 
 //Verificación de que el dato sea correcto

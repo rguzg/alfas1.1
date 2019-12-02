@@ -55,7 +55,7 @@ html, body
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: baseline;
     border: 1px solid #cccccc;
     border-radius: 1rem;
     color: #000000;
@@ -65,15 +65,15 @@ html, body
 
 }
 
-.usuarioNormal{
+.usuario{
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     height: 200px;
     width: 100%;
-    background-color: #1A2345;
+    background-color: #000000;
     border: none;
     color: #ffffff;
     border-radius: 0.8rem;
@@ -87,34 +87,29 @@ html, body
     padding-top: 10px;
     display: flex;
     flex-direction: column;
+    width: 90%;
 
 }
 
-.form-control:disabled{
-    
-    color: #000000 !important;
-    background-color: #ffffff;
+.btn{
 
-}
-
-.btn-normal{
-
-    background-color: #1A2345 !important;
     color: #ffffff !important;
+    border: solid 1px #ffffff;
     width: 40px;
+    display: flex;
+    justify-content: center;
+
+}
+
+#btn-anadir{
+
+    background-color: #000000; 
 
 }
 
 .invisible{
 
     display: none !important;
-
-}
-
-.fa-camera{
-
-    font-size: 50px;
-    position: relative;
 
 }
 
@@ -137,23 +132,16 @@ html, body
 
 }
 
-#fotoPerfilBoton{
+#contenedorNombre{
 
-    z-index: 3;
-    margin-top: 70px;
-    margin-left: 70px;
-
-}
-
-#fotoPerfilCancelar{
-
-    z-index: 3;
-    margin-top: -60px;
-    margin-left: -10px;
+    flex-direction: column; 
+    display: flex; 
+    margin-left: 10px;
+    width: 200px;
 
 }
 
-#passwordBotonCancelar{
+#estadoAmistad{
 
     margin-left: 10px;
 

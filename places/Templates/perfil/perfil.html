@@ -1,0 +1,107 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Fontawesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/perfil/perfil.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/header/header.js' %}"></script>
+    <script defer src="{% static 'js/perfil/perfil.js' %}"></script>
+    
+    <title>{{nombre}} {{apellidos}} - Places</title>
+</head>
+<body>
+    {%csrf_token%}
+    <header>
+        <div class="mainHeader">
+            <img class="iconHeader" id="places" src="{% static 'img/favicon.png' %}">
+            <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
+            <div class="botonesUsuario">
+                <div id="profilePicture" style="background-image: url({{request.session.profilepicture}});">
+                </div>
+                <div id="logout" style="display: flex; align-items: center;">
+                    <i class="fas fa-door-open"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div class="container">
+            <h1 id="titulo" >Perfil</h1>
+            <div class="cajas">
+                <div class="contenedor">
+                    <div class="usuario">
+                        <div id="datosPicture" style="background-image: url({{fotoPerfil}});">
+                        </div>
+                        <div id="contenedorNombre">
+                            <h4 id="nombre">{{nombre}}</h4>
+                            <h4 id="apellidos">{{apellidos}}</h4>
+                            <h6 id="usuario">{{usuario}}</h6>
+                            <h6 id="tipo">
+                                {% if tipo == 'normal' %}
+                                Usuario Normal
+                                {% endif %}
+                                {% if tipo == 'propietario' %}
+                                Propietario
+                                {% endif %}
+                                {% if tipo == 'administrador' %}
+                                Administrador
+                                {% endif %}
+                            </h6>
+                            <div style="display: flex; align-items: center;" id="contenedorAmistad">
+                                {% if estadoAmistad == 'amistadSolicitada' %}
+                                <button class="btn btn-danger" id="btn-cancelar"><i class="fas fa-user-times"></i></button>
+                                {% endif %}
+                                {% if estadoAmistad == 'amistadPendiente' %}
+                                <button class="btn btn-success" id="btn-confirmar"><i class="fas fa-user-check"></i></button> 
+                                <button class="btn btn-danger" id="btn-cancelar"><i class="fas fa-user-times"></i></button>
+                                {% endif %}
+                                {% if estadoAmistad == 'amistadActiva' %}
+                                <button class="btn btn-danger" id="btn-eliminar"><i class="fas fa-user-times"></i></button>
+                                {% endif %}
+                                {% if estadoAmistad == 'ninguno' %}
+                                <button class="btn" id="btn-anadir"><i class="fas fa-user-friends"></i></button>
+                                {% endif %}
+                                <small id="estadoAmistad">
+                                    {% if estadoAmistad == 'amistadSolicitada' %}
+                                    Solicitud Enviada
+                                    {% endif %}
+                                    {% if estadoAmistad == 'amistadPendiente' %}
+                                    Acepta o rechaza la solicitud
+                                    {% endif %}
+                                    {% if estadoAmistad == 'amistadActiva' %}
+                                    Amigos
+                                    {% endif %}
+                                    {% if estadoAmistad == 'ninguno' %}
+                                    Añadir Amigo
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="datos">
+                        <textarea class="form-control" id="descripcion" cols="30" rows="10" disabled>{{descripcion}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
