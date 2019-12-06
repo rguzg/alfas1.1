@@ -45,6 +45,7 @@ class invitacion(models.Model):
     fechahora = models.DateTimeField(auto_now_add=True)
     anfitrion = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name='anfitrion')
     invitado = models.ForeignKey(usuarios, on_delete=models.CASCADE, related_name='invitado')
+    lugar = models.ForeignKey(models_lugar.lugar, on_delete=models.CASCADE)
     status = models.ForeignKey(status, on_delete=models.CASCADE)
 
 class listaAmigos(models.Model):

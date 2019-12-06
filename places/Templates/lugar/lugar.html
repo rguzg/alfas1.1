@@ -1,0 +1,171 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Fontawesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lugar/lugar.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/header/header.js' %}"></script>
+    <script defer src="{% static 'js/lugar/lugar.js' %}"></script>
+    
+    <title>{{nombre}} - Places</title>
+</head>
+<body>
+    {%csrf_token%}
+    <header>
+        <div class="mainHeader">
+            <img class="iconHeader" id="places" src="{% static 'img/favicon.png' %}">
+            <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
+            <div class="botonesUsuario">
+                <div id="profilePicture" style="background-image: url(../{{request.session.profilepicture}});">
+                </div>
+                {% if request.session.tipo == 'administrador' or request.session.tipo == 'propietario' %}
+                <div id="nuevoLugar" style="display: flex; align-items: center;">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                {% endif %}
+                <div id="logout" style="display: flex; align-items: center;">
+                    <i class="fas fa-door-open"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="invisible" id="resultadosBusqueda">
+    </div>
+    <div class="main">     
+        <div class="container">
+            <h1 id="titulo" >
+                {{nombre}} 
+            </h1>
+                {% if status == 'lugarSolicitado' %}<small class="noConfirmado">Este lugar todavía no está confirmado, por lo tanto solo lo puedes ver tu</small>{% endif %}
+            <div class="cajas">
+                <div class="contenedor">
+                    <div class="datos">
+                        <div>
+                            <div class="botones"> 
+                                {% if  propietario == request.session.usuario %}
+                                <button class="btn btn-normal" type="button" style="width: auto; margin-right:5px;" id="editarBoton">Editar</button>
+                                {% endif %}
+                                {% if  status != 'lugarSolicitado'%}
+                                <button class="btn btn-normal" type="button" style="width: auto;" id="solicitudBoton">Invitar</button>
+                                {% endif %}
+                                {% if  propietario == request.session.usuario %}
+                                <button class="btn btn-danger" type="button" style="width: auto; margin-left:5px;" id="eliminarBoton">Eliminar</button>
+                                {% endif %}
+                                {% if  propietario != request.session.usuario %}
+                                <button class="btn btn-danger" type="button" style="width: auto; margin-left:5px;" id="reportarBoton">Reportar</button>
+                                {% endif %}
+                            </div>
+
+                            <h5>Descripción</h5>
+                            <div class="input-group">
+                                <textarea id="descripcion" cols="30" rows="8">{{descripcion}}</textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Número</h5>
+                            <div class="input-group">
+                                {{telefono}}
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Sitio Web</h5>
+                            <div class="input-group">
+                                {{sitioweb}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="contenedor">
+                    <div class="datos" style="width: 259px;">
+                        <div>
+                            <h5>Dias abiertos</h5>
+                            <div class="contenedorDias">
+                                <div class="dia">
+                                    <input type="checkbox" name="lunes" id="lunes" disabled {{abiertoLunes}}>
+                                    <label for="lunes">Lunes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="martes" id="martes"disabled {{abiertoMartes}}>
+                                    <label for="martes">Martes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="miercoles" id="miercoles"disabled {{abiertoMiercoles}}>
+                                    <label for="miercoles">Miércoles</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="jueves" id="jueves"disabled {{abiertoJueves}}>
+                                    <label for="jueves">Jueves</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="viernes" id="viernes"disabled {{abiertoViernes}}>
+                                    <label for="viernes">Viernes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="sabado" id="sabado"disabled {{abiertoSabado}}>
+                                    <label for="sabado">Sábado</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="domingo" id="domingo"disabled {{abiertoDomingo}}>
+                                    <label for="domingo">Domingo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Horas abierto</h5>
+                            <div class="input-group">
+                                 {{horarioAbrir}} - {{horarioCerrar}}         
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Dirección</h5>
+                            <div class="input-group">
+                                {{direccion}}
+                           </div>
+                        </div>
+                        <div>
+                            <h5>Categoria</h5>
+                            <div class="form-group">
+                                {{categoria}}
+                              </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 5px; justify-content: center; display: flex; align-content: center; margin-left: 5px">
+                            {% if urlMenu != '' %}
+                                <div style="text-align: center; margin-right: 5px;">
+                                <h5>Ver el menú</h5>
+                                    <a class="btn btn-normal" id="contenedorInputMenu" href="../{{urlMenu}}"><i class="fas fa-file-pdf"></i></a>
+                            </div>
+                            {% endif %}
+                            {% if urlFotos != '' %}
+                            <div style="text-align: center;">
+                                <h5>Ver foto</h5>
+                                <a class="btn btn-normal" id="contenedorInputMenu" href="../{{urlFotos}}"><i class="fas fa-images"></i></a>
+                            </div>
+                            {% endif %}
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

@@ -19,6 +19,7 @@ html, body
     padding-top: 55px;
     height: 100%;
     width: 100%;
+    z-index: 1;
 
 }
 
@@ -51,11 +52,11 @@ html, body
 .contenedor{
 
     height: 500px;
-    width: 333px;
+    width: 315px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: baseline;
+    justify-content: center;
     border: 1px solid #cccccc;
     border-radius: 1rem;
     color: #000000;
@@ -65,62 +66,26 @@ html, body
 
 }
 
-.usuario{
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-    width: 100%;
-    background-color: #000000;
-    border: none;
-    color: #ffffff;
-    border-radius: 0.8rem;
-    z-index: 3;
-    box-shadow: 0px 15px 10px -15px #111;
+.btn-normal{
 
-}
-
-.datos{
-
-    padding-top: 10px;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-
-}
-
-.btn{
-
+    background-color: #1A2345 !important;
     color: #ffffff !important;
-    border: solid 1px #ffffff;
     width: 40px;
-    display: flex;
-    justify-content: center;
 
 }
 
-#btn-anadir{
+.btn-borrar{
 
-    background-color: #000000; 
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    width: 40px;
 
 }
 
 .invisible{
 
     display: none !important;
-
-}
-
-#datosPicture{
-
-    height: 100px;
-    width: 100px;
-    border-radius: 95px;
-    background-size: cover;
-    float: left;
-    z-index: 2;
 
 }
 
@@ -132,18 +97,38 @@ html, body
 
 }
 
-#contenedorNombre{
+.noConfirmado{
 
-    flex-direction: column; 
-    display: flex; 
-    margin-left: 10px;
-    width: 200px;
+    color: #e6ae09;
+    padding-left: 55px;
+    margin-bottom: 5px;
 
 }
 
-#estadoAmistad{
+.contenedorDias{
 
-    margin-left: 10px;
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.dia{
+
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    margin-right: 10px;
+
+}
+
+.botones{
+
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
 
 }
 

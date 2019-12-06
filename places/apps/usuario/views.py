@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q 
 import shutil
 import random
 
@@ -12,6 +13,10 @@ from apps.usuario.models import usuarios as model_usuario
 from apps.usuario.models import tipoUsuario as model_tipoUsuario
 from apps.usuario.models import status as model_status
 from apps.usuario.models import listaAmigos as model_listaAmigos
+from apps.usuario.models import invitacion as model_invitacion
+from apps.lugar.models import lugar as model_lugar
+from apps.lugar.models import reporte as model_reporte
+from apps.lugar.models import categoria as model_categoria
 
 # Create your views here.
 def placeholderProfilePicture(filename):
@@ -268,6 +273,18 @@ def cancelarPropietario(request):
         return JsonResponse({'status': 500})
 
 @login_required(login_url='/')
+def cancelarLugar(request):
+    lugar = model_lugar.objects.get(nombre=request.POST['lugar'])
+        
+    status = model_status.objects.get(nombre='ninguno')
+
+    lugar.status = status
+    lugar.eliminado = True
+    lugar.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
 def aceptarPropietario(request):
     usuario = model_usuario.objects.get(username=request.POST['usuario'])
     status = model_status.objects.get(nombre='propietarioGarantizado')
@@ -282,8 +299,17 @@ def aceptarPropietario(request):
     else:
         return JsonResponse({'status': 500})
 
-
 @login_required(login_url='/')
+def aceptarLugar(request):
+    lugar = model_lugar.objects.get(nombre=request.POST['lugar'])
+    status = model_status.objects.get(nombre='lugarAprobado')
+
+    lugar.status = status
+    lugar.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')  
 def solicitudes(request):
     if request.GET['tipo'] == 'propietario':
         if request.session['tipo'] == 'administrador':
@@ -298,6 +324,219 @@ def solicitudes(request):
             return JsonResponse({'status': 200, 'solicitudes': arregloSolicitudes})
         else:
             return JsonResponse({'status': 403})
+    if request.GET['tipo'] == 'lugar':
+        if request.session['tipo'] == 'administrador':
+            status = model_status.objects.get(nombre='lugarSolicitado')
+
+            lugarConSolicitud = model_lugar.objects.filter(status=status).all()
+            arregloSolicitudes = []
+
+            for solicitud in lugarConSolicitud:
+                arregloSolicitudes.append(solicitud.nombre)
+            
+            return JsonResponse({'status': 200, 'solicitudes': arregloSolicitudes})
+        else:
+            return JsonResponse({'status': 403})
+    if request.GET['tipo'] == 'invitacion':
+        status = model_status.objects.get(nombre='invitacionSolicitada')
+
+        invitaciones = model_invitacion.objects.filter(status=status).filter(invitado=request.session['pk']).all()
+        arregloInvitaciones = []
+
+        for invitacion in invitaciones:
+            arregloInvitaciones.append({
+                
+                'nombre': invitacion.lugar.nombre,
+                'id': invitacion.pk,
+
+            })
+            
+        return JsonResponse({'status': 200, 'solicitudes': arregloInvitaciones})
+    if request.GET['tipo'] == 'reportes':
+        if request.session['tipo'] == 'administrador':
+            status = model_status.objects.get(nombre='reporteEnviado')
+            reportes = model_reporte.objects.filter(status=status).all()
 
 
+        if request.session['tipo'] == 'propietario':
+            status = model_status.objects.get(nombre='reporteConfirmado')
+            reportes = model_reporte.objects.filter(status=status).all()
+
+        
+        arregloReportes = []
+
+        for reporte in reportes:
+            arregloReportes.append({
+                    
+                'lugar': reporte.lugar.nombre,
+                'id': reporte.pk,
+
+            })
+                
+        return JsonResponse({'status': 200, 'solicitudes': arregloReportes})
+    if request.GET['tipo'] == 'categorias':
+
+        categorias = model_categoria.objects.all()
+        arregloCategorias = []
+
+        for categoria in categorias:
+            arregloCategorias.append({
+                
+                'id': categoria.pk,
+                'nombre': categoria.nombre,
+
+            })
+            
+        return JsonResponse({'status': 200, 'solicitudes': arregloCategorias})
+
+@login_required(login_url='/')  
+def getAmigos(request):
+
+    listaAmigos = model_listaAmigos.objects.filter(usuario=request.session['pk']).all()
+
+    amigos = {}
+
+    for amigo in listaAmigos:
+        amigos[amigo.amigo.pk] = amigo.amigo.username
+
+    return JsonResponse(amigos)
+
+@login_required(login_url='/')  
+def reportes(request):
     
+    reporteQuery = model_reporte.objects.get(pk=request.GET['id'])            
+
+    if request.session['tipo'] == 'administrador':
+
+        
+        reporte = {
+                    
+            'id': reporteQuery.id,
+            'titulo': reporteQuery.titulo,
+            'descripcion': reporteQuery.descripcion,
+            'lugar': reporteQuery.lugar.nombre,
+            'usuario': reporteQuery.usuario.username,
+
+        }
+
+        return JsonResponse({'status': 200, 'reporte': reporte})
+
+    if request.session['tipo'] == 'propietario':
+
+        
+        reporte = {
+                    
+            'id': reporteQuery.id,
+            'titulo': reporteQuery.titulo,
+            'descripcion': reporteQuery.descripcion,
+            'lugar': reporteQuery.lugar.nombre,
+
+
+        }
+
+        return JsonResponse({'status': 200, 'reporte': reporte})
+
+@login_required(login_url='/')  
+def invitacion(request):
+
+    anfitrion = model_usuario.objects.get(pk = request.session['pk'])
+    invitado = model_usuario.objects.get(pk = request.POST['invitado'])
+    status = model_status.objects.get(nombre = "invitacionSolicitada")
+    lugar = model_lugar.objects.get(nombre = request.POST['lugar'])
+    nuevaInvitacion = model_invitacion(
+
+        anfitrion = anfitrion,
+        invitado = invitado,
+        lugar = lugar,
+        status = status
+
+    )
+
+    nuevaInvitacion.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def cancelarInvitacion(request):
+    invitacion = model_invitacion.objects.get(pk=request.POST['id'])
+
+    invitacion.delete()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def aceptarInvitacion(request):
+    invitacion = model_invitacion.objects.get(pk=request.POST['id'])
+    status = model_status.objects.get(nombre='invitacionAceptada')
+
+    invitacion.status = status
+    invitacion.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def aceptarReporte(request):
+    reporte = model_reporte.objects.get(pk=request.POST['id'])
+    status = model_status.objects.get(nombre='reporteConfirmado')
+
+    reporte.status = status
+    reporte.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def cancelarReporte(request):
+    reporte = model_reporte.objects.get(pk=request.POST['id'])
+    status = model_status.objects.get(nombre='reporteEliminado')
+
+    reporte.status = status
+    reporte.eliminado = True
+    reporte.save()
+
+    return JsonResponse({'status': 200})
+
+@login_required(login_url='/')
+def contestarReporte(request):
+    reporte = model_reporte.objects.get(pk=request.POST['id'])
+    status = model_status.objects.get(nombre='reporteRespondido')
+    respuesta = request.POST['respuesta']
+
+    reporte.status = status
+    reporte.respuesta = respuesta   
+    reporte.save()
+
+    return JsonResponse({'status': 200})
+
+
+@login_required(login_url='/')
+def busqueda(request):
+
+    resultados = {
+
+        'lugar':[],
+        'usuario':[],
+
+    }
+
+    query = request.GET['query']
+
+    usuariosQuery = model_usuario.objects.filter(Q(username__icontains = query) | Q(first_name__icontains = query))
+    lugarQuery = model_lugar.objects.filter((Q(nombre__icontains = query) | Q(categoria__nombre__icontains = query)) & Q(status__nombre = "lugarAprobado"))
+
+    if usuariosQuery is not None:
+        for usuario in usuariosQuery:
+            diccionarioResultados = []
+
+            diccionarioResultados.append(usuario.first_name)
+            diccionarioResultados.append(usuario.username)
+
+            resultados['usuario'].append(diccionarioResultados)
+    if lugarQuery is not None:
+        for lugar in lugarQuery:
+            diccionarioResultados = []
+
+            diccionarioResultados.append(lugar.nombre)
+
+            resultados['lugar'].append(diccionarioResultados)
+
+    return JsonResponse(resultados)

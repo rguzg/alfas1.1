@@ -1,0 +1,181 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'img/favicon_dark.png' %}" type="image/x-icon">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Fontawesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="{% static 'css/header/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nuevoLugar/nuevoLugar.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font.css' %}">
+    
+    <script defer src="{% static 'js/header/header.js' %}"></script>
+    <script defer src="{% static 'js/nuevoLugar/nuevoLugar.js' %}"></script>
+    
+    <title>Nuevo Lugar - Places</title>
+</head>
+<body>
+    {%csrf_token%}
+    <header>
+        <div class="mainHeader">
+            <img class="iconHeader" id="places" src="{% static 'img/favicon.png' %}">
+            <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
+            <div class="botonesUsuario">
+                <div id="profilePicture" style="background-image: url(../{{request.session.profilepicture}});">
+                </div>
+                {% if tipoUsuario == 'administrador' or tipoUsuario == 'propietario' %}
+                <div id="nuevoLugar" style="display: flex; align-items: center;">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                {% endif %}
+                <div id="logout" style="display: flex; align-items: center;">
+                    <i class="fas fa-door-open"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="invisible" id="resultadosBusqueda">
+    </div>
+    <div class="main">
+        <div class="container">
+            <h1 id="titulo" >Nuevo Lugar</h1>
+            <div class="cajas">
+                <div class="contenedor">
+                    <div class="datos">
+                        <div>
+                            <h5>Nombre</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="nombre">
+                            </div>
+                            <small class="form-text smallError invisible" id="errorNombre">Ingresa un nombre</small>
+                        </div>
+                        <div>
+                            <h5>Descripción</h5>
+                            <textarea id="descripcion" cols="30" rows="8"></textarea>
+                            <small class="form-text smallError invisible" id="errorDescripcion">Ingresa la descripción del lugar</small>
+                        </div>
+                        <div>
+                            <h5>Número</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="numero">
+                            </div>
+                            <small class="form-text smallError invisible" id="errorNumero">Ingresa el número del lugar</small>
+                        </div>
+                        <div>
+                            <h5>Sitio Web</h5>
+                            <div class="input-group">
+                                <input type="url" class="form-control" id="sitioWeb">
+                            </div>
+                            <small class="form-text smallError invisible" id="errorSitio">Ingresa el sitio del lugar</small>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="contenedor">
+                    <div class="datos" style="width: 259px;">
+                        <div>
+                            <h5>Dias abiertos</h5>
+                            <div class="contenedorDias">
+                                <div class="dia">
+                                    <input type="checkbox" name="lunes" id="lunes">
+                                    <label for="lunes">Lunes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="martes" id="martes">
+                                    <label for="martes">Martes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="miercoles" id="miercoles">
+                                    <label for="miercoles">Miércoles</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="jueves" id="jueves">
+                                    <label for="jueves">Jueves</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="viernes" id="viernes">
+                                    <label for="viernes">Viernes</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="sabado" id="sabado">
+                                    <label for="sabado">Sábado</label>
+                                </div>
+                                <div class="dia">
+                                    <input type="checkbox" name="domingo" id="domingo">
+                                    <label for="domingo">Domingo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5>Horas abierto</h5>
+                            <div class="input-group">
+                                 <input type="text" class="form-control" id="horaAbre">
+                                 <input type="text" class="form-control" id="horaCierra">
+                            </div>
+                            <small class="form-text smallError invisible" id="errorHoras">Ingresa la hora de apertura y de cierre</small>
+                        </div>
+                        <div>
+                            <h5>Dirección</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="direccion">
+                           </div>
+                           <small class="form-text smallError invisible" id="errorDireccion">Ingresa la dirección del lugar</small>
+                        </div>
+                        <div>
+                            <h5>Categoria</h5>
+                            <div class="form-group">
+                                <select class="form-control" id="categoria">
+                                {% for categoria in categorias %}
+                                <option value="{{categoria.nombre}}">
+                                    {{categoria.nombre}}
+                                </option>
+                                {% endfor %}
+                                </select>
+                              </div>
+                           <small class="form-text smallError invisible" id="errorDireccion">Ingresa la dirección del lugar</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="contenedor" id="botonesExtra">
+                    <div class="datos" style="width: 259px; display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 5px; justify-content: center; display: flex; align-content: center; margin-left: 5px">
+                            <div style="text-align: center;">
+                                <h5>Añade un menú</h5>
+                                <div class="btn btn-normal" id="contenedorInputMenu">
+                                    <input type="file" class="custom-file-input" id="menu" accept=".pdf" style="height: 100%; width: 100%; z-index: 3">
+                                </div>
+                                <div class="btn btn-borrar invisible" id="cancelarMenu">
+                                        <i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <h5>Añade una foto</h5>
+                                <div class="btn btn-normal" id="contenedorInputFoto">
+                                    <input type="file" class="custom-file-input" id="foto" accept="image/png, image/jpeg" style="height: 100%; width: 100%; z-index: 3">
+                                </div>
+                                <div class="btn btn-borrar invisible" id="cancelarFoto">
+                                        <i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-normal" type="button" style="width: auto;" id="registroBoton">Registrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

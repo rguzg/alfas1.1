@@ -37,12 +37,19 @@
             <div class="botonesUsuario">
                 <div id="profilePicture" style="background-image: url({{request.session.profilepicture}});">
                 </div>
+                {% if request.session.tipo == 'administrador' or request.session.tipo == 'propietario' %}
+                <div id="nuevoLugar" style="display: flex; align-items: center;">
+                <i class="fas fa-map-marked-alt"></i>
+                </div>
+                {% endif %}
                 <div id="logout" style="display: flex; align-items: center;">
                     <i class="fas fa-door-open"></i>
                 </div>
             </div>
         </div>
     </header>
+    <div class="invisible" id="resultadosBusqueda">
+    </div>
     <div class="main">
         <div class="container">
             <h1 id="titulo" >Perfil</h1>

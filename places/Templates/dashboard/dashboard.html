@@ -36,6 +36,11 @@
             <input class="form-control" type="text" id="busqueda" placeholder="Buscar...">
             <div class="botonesUsuario">
                 <div id="profilePicture" style="background-image: url({{request.session.profilepicture}});"></div>
+                {% if tipoUsuario == 'administrador' or tipoUsuario == 'propietario' %}
+                <div id="nuevoLugar" style="display: flex; align-items: center;">
+                <i class="fas fa-map-marked-alt"></i>
+                </div>
+                {% endif %}
                 <div id="logout" style="display: flex; align-items: center;">
                     <i class="fas fa-door-open"></i>
                 </div>
@@ -43,22 +48,29 @@
         </div>
         <div class="background" >
             <img src="{% static '../static/img/dashboard_white_smaller.png'%}" id="logoDashboard">
+            <div class="invisible" id="resultadosBusqueda">
+            </div>
         </div>
     </header>
     <div class="main">
         <div class="contenido container">
-            <div class="card" style="width: 18rem;">
-                <img src="../static/img/Header.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">No tienes ninguna invitación en este momento</p>
-                </div>
+            <div class="cardHolder">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Invitaciones</h4>
+                    </div>
+                    <div class="card-body" id="solicitudInvitacion">
+                    </div>
             </div>
-            <div class="card" style="width: 18rem;">
-                <img src="../static/img/Header.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">No tienes ninguna invitación en este momento</p>
+            {% if tipoUsuario == 'administrador' %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Solicitudes de Lugar</h4>
+                    </div>
+                    <div class="card-body" id="solicitudLugar">
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             {% if tipoUsuario == 'administrador' %}
                 <div class="card" style="width: 18rem;">
                     <div class="card-img-top">
@@ -67,7 +79,32 @@
                     <div class="card-body" id="solicitudPropietario">
                     </div>
                 </div>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Reportes</h4>
+                    </div>
+                    <div class="card-body" id="solicitudReportes">
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Categorias</h4>
+                    </div>
+                    <div class="card-body" id="solicitudCategoria">
+                        <button class="btn btn-success rechazarSolicitudPropBoton" type="button" id="nuevoCategoria" style="height: 35px;"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
             {% endif %}
+            {% if tipoUsuario == 'propietario' %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top">
+                        <h4 class="cardTitulo">Reportes</h4>
+                    </div>
+                    <div class="card-body" id="solicitudReportes">
+                    </div>
+                </div>
+            {% endif %}
+            </div>
         </div>
     </div>
 </body>
