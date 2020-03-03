@@ -236,16 +236,13 @@ $RECYCLE.BIN/
 *.lnk
 
 #Project Specifics
-static/img/
-static/pdf/
-!static/placeholder.png
-!static/img/dashboard_white_smaller.png
-!static/img/favicon.png
-!static/img/favicon_dark.png
-!static/img/black-and-white-black-background-dark-design-808822.jpg
-!static/img/categoria/
-!static/img/lugar/
-!static/img/profilepictures/
+static/img/categoria/*
+static/img/lugar/*
+static/img/profilepictures/*
+static/pdf/lugar/*
+!static/img/categoria/.gitkeep
+!static/img/lugar/.gitkeep
+!static/img/profilepictures/.gitkeep
 !static/pdf/.gitkeep
 !static/pdf/lugar/.gitkeep
 
