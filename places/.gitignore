@@ -246,6 +246,8 @@ static/pdf/
 !static/img/categoria/
 !static/img/lugar/
 !static/img/profilepictures/
+!static/pdf/.gitkeep
+!static/pdf/lugar/.gitkeep
 
 #VSCode
 *.code-workspace
