@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[scripts]
+server = "python manage.py runserver 127.0.0.1:8888"
+migrate = "python manage.py migrate"
+makemigrate = "python manage.py makemigrations"
+
+[dev-packages]
+
+[packages]
+django = "*"
+python-dotenv = "*"
+markdown = "*"
+django-filter = "*"
+pipfile = "*"
+mysqlclient = {path = "D:/raulg/Downloads/mysqlclient-1.4.6-cp38-cp38-win32.whl"}
+
+[requires]

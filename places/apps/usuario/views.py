@@ -54,7 +54,7 @@ def registro(request):
                 last_name = request.POST['apellidos'], 
                 email = request.POST['correo'], 
                 descripcion = "Haz click en el botón para modificar tu descripción", 
-                urlFotoPerfil = 'static/img/profilepictures/'+generarNombreFotoPerfil()+'.png', 
+                urlFotoPerfil = 'static/img/profilepictures/'+(request.POST['usuario'])+'.png', 
                 tipoUsuario = model_tipoUsuario.objects.get(nombre='normal'),
                 status = model_status.objects.get(nombre='ninguno'))
             return JsonResponse({'status': 200})
