@@ -243,9 +243,9 @@ static/pdf/
 !static/img/favicon.png
 !static/img/favicon_dark.png
 !static/img/black-and-white-black-background-dark-design-808822.jpg
-!static/img/categoria
-!static/img/lugar
-!static/img/profilepictures
+!static/img/categoria/
+!static/img/lugar/
+!static/img/profilepictures/
 
 #VSCode
 *.code-workspace
