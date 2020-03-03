@@ -245,6 +245,7 @@ static/pdf/lugar/*
 !static/img/profilepictures/.gitkeep
 !static/pdf/.gitkeep
 !static/pdf/lugar/.gitkeep
+../Planeación/*
 
 #VSCode
 *.code-workspace
